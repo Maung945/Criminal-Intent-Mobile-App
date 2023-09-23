@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ma.androidapps.criminalintent.databinding.FragmentCrimeListBinding
 
 private const val TAG = "CrimeListFragment"
+
 class CrimeListFragment : Fragment() {
     private var _binding: FragmentCrimeListBinding? = null
     private val binding
@@ -45,3 +46,5 @@ class CrimeListFragment : Fragment() {
     }
 
 }
+
+
