@@ -2,13 +2,16 @@ package ma.androidapps.criminalintent
 
 import android.content.Context
 import androidx.room.Room
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import ma.androidapps.criminalintent.database.CrimeDatabase
 import java.util.*
 
 private const val DATABASE_NAME = "crime-database"
 
-class CrimeRepository private constructor(context: Context) {
+class CrimeRepository private constructor(context: Context, private val coroutineScope: CoroutineScope = GlobalScope) {
     private val database: CrimeDatabase = Room
         .databaseBuilder(
             context.applicationContext,
@@ -19,6 +22,12 @@ class CrimeRepository private constructor(context: Context) {
         .build()
     fun getCrimes(): Flow<List<Crime>> = database.crimeDao().getCrimes()
     suspend fun getCrime(id: UUID): Crime = database.crimeDao().getCrime(id)
+
+    fun updateCrime(crime: Crime) {
+        coroutineScope.launch {
+            database.crimeDao().updateCrime(crime)
+        }
+    }
 
     companion object {
         private var INSTANCE: CrimeRepository? = null
