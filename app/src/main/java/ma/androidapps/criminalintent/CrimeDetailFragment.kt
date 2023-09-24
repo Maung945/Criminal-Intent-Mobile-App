@@ -1,14 +1,16 @@
 package ma.androidapps.criminalintent
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import ma.androidapps.criminalintent.databinding.FragmentCrimeDetailBinding
 import java.util.*
-
+private const val TAG = "CrimeDetailFragment"
 class CrimeDetailFragment : Fragment() {
     // private lateinit var binding: FragmentCrimeDetailBinding
     private var _binding: FragmentCrimeDetailBinding? = null
@@ -17,6 +19,8 @@ class CrimeDetailFragment : Fragment() {
             "Cannot access binding because it is null. Is the view visible?"
         }
     private lateinit var crime : Crime
+
+    private val args: CrimeDetailFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +31,7 @@ class CrimeDetailFragment : Fragment() {
             date = Date(),
             isSolved = false
         )
+        Log.d(TAG, "The crime ID is: ${args.crimeId}")
     }
     override fun onCreateView(
         inflater: LayoutInflater,
