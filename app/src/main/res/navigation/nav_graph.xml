@@ -34,4 +34,5 @@
             android:name="crimeDate"
             app:argType="java.util.Date" />
     </dialog>
+
 </navigation>

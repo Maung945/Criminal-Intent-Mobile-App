@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.navArgs
 import java.util.*
-//private const val ARG_DATE = "date" //
+
 class DatePickerFragment : DialogFragment() {
 
     private val args: DatePickerFragmentArgs by navArgs()

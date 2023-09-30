@@ -87,6 +87,7 @@ class CrimeDetailFragment : Fragment() {
                     CrimeDetailFragmentDirections.selectDate(crime.date)
                 )
             }
+
             crimeSolved.isChecked = crime.isSolved
         }
     }

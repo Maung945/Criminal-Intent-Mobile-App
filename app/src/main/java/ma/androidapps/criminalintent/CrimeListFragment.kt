@@ -2,9 +2,7 @@ package ma.androidapps.criminalintent
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ma.androidapps.criminalintent.databinding.FragmentCrimeListBinding
+import java.util.*
 
 private const val TAG = "CrimeListFragment"
 
@@ -26,13 +25,12 @@ class CrimeListFragment : Fragment() {
         }
 
     private val crimeListViewModel: CrimeListViewModel by viewModels()
-    //private var job: Job? = null
-    /*
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "Total crimes: ${crimeListViewModel.crimes.size}")
+        setHasOptionsMenu(true)
     }
-    */
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,25 +39,8 @@ class CrimeListFragment : Fragment() {
         _binding = FragmentCrimeListBinding.inflate(inflater, container, false)
 
         binding.crimeRecyclerView.layoutManager = LinearLayoutManager(context)
-
-        //val crimes = crimeListViewModel.crimes
-        //val adapter = CrimeListAdapter(crimes)
-        //binding.crimeRecyclerView.adapter = adapter
         return binding.root
     }
-    /*
-    override fun onStart() {
-        super.onStart()
-        job = viewLifecycleOwner.lifecycleScope.launch {
-            val crimes = crimeListViewModel.loadCrimes()
-            binding.crimeRecyclerView.adapter = CrimeListAdapter(crimes)
-        }
-    }
-    override fun onStop() {
-        super.onStop()
-        job?.cancel()
-    }
-     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
@@ -80,5 +61,31 @@ class CrimeListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.fragment_crime_list, menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.new_crime -> {
+                showNewCrime()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+    private fun showNewCrime() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val newCrime = Crime(
+                id = UUID.randomUUID(),
+                title = "",
+                date = Date(),
+                isSolved = false
+            )
+            crimeListViewModel.addCrime(newCrime)
+            findNavController().navigate(
+                CrimeListFragmentDirections.showCrimeDetail(newCrime.id)
+            )
+        }
+    }
 }
