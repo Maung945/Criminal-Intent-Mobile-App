@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import ma.androidapps.criminalintent.database.CrimeDatabase
 import ma.androidapps.criminalintent.database.migration_1_2
+import ma.androidapps.criminalintent.database.migration_2_3
 import java.util.*
 
 private const val DATABASE_NAME = "crime-database"
@@ -19,7 +20,7 @@ class CrimeRepository private constructor(context: Context, private val coroutin
             CrimeDatabase::class.java,
             DATABASE_NAME
         )
-        .addMigrations(migration_1_2)
+        .addMigrations(migration_1_2, migration_2_3)
         .build()
     fun getCrimes(): Flow<List<Crime>> = database.crimeDao().getCrimes()
     suspend fun getCrime(id: UUID): Crime = database.crimeDao().getCrime(id)
