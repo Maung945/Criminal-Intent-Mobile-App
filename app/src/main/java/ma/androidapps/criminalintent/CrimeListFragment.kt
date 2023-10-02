@@ -14,6 +14,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ma.androidapps.criminalintent.databinding.FragmentCrimeListBinding
 import java.util.*
+import android.text.format.DateFormat
+
 
 private const val TAG = "CrimeListFragment"
 
@@ -88,4 +90,5 @@ class CrimeListFragment : Fragment() {
             )
         }
     }
+
 }
